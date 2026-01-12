@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }}{% else %}رحلات تافراوت{% endif %}</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #007bff;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>رحلات تافراوت 🌄</h1>
+    <p>منصة ذكية لحجز الرحلات السياحية إلى جوهرة الأطلس الصغير</p>
+  </header>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer style="text-align: center; margin-top: 30px; color: #666;">
+    &copy; {{ 'now' | date: "%Y" }} Atlas Hideaway. جميع الحقوق محفوظة.
+  </footer>
+</body>
+</html>
