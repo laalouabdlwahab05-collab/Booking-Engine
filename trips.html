@@ -1,0 +1,93 @@
+---
+layout: default
+title: ابحث عن رحلتك لتافراوت
+---
+
+<h1>🔍 ابحث عن رحلتك لتافراوت</h1>
+
+<form id="tripSearchForm">
+  <label>الميزانية (درهم):</label>
+  <input type="range" id="budget" min="200" max="2000" value="800">
+  <span id="budgetValue">800 درهم</span>
+
+  <label>نوع الرحلة:</label>
+  <select id="tripType">
+    <option value="all">الكل</option>
+    <option value="adventure">مغامرة (مشي جبلي)</option>
+    <option value="cultural">ثقافية (قرى – أسواق)</option>
+    <option value="relax">استرخاء (طبيعة – إيكو)</option>
+  </select>
+
+  <button type="submit">🔎 ابحث الآن</button>
+</form>
+
+<div id="results"></div>
+
+<script>
+  // بيانات الرحلات (يمكن تبديلها بملف JSON لاحقاً)
+  const allTrips = [
+    {
+      id: 1,
+      name: "رحلة جبلية إلى جبل لقصير",
+      type: "adventure",
+      price: 800,
+      duration: "2 أيام",
+      description: "مشي جبلي، تخييم، مناظر خلابة"
+    },
+    {
+      id: 2,
+      name: "زيارة قرى أملن والصخور الزرقاء",
+      type: "cultural",
+      price: 400,
+      duration: "يوم واحد",
+      description: "اكتشف الثقافة الأمازيغية وأسواق تافراوت"
+    },
+    {
+      id: 3,
+      name: "عطلة إيكولوجية في دار تقليدية",
+      type: "relax",
+      price: 1200,
+      duration: "3 أيام",
+      description: "استرخاء في طبيعة نقية مع طعام محلي"
+    }
+  ];
+
+  // تحديث قيمة السلايدر مباشرة
+  document.getElementById('budget').addEventListener('input', function() {
+    document.getElementById('budgetValue').textContent = this.value + ' درهم';
+  });
+
+  // معالجة البحث
+  document.getElementById('tripSearchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const budget = parseInt(document.getElementById('budget').value);
+    const type = document.getElementById('tripType').value;
+
+    const filtered = allTrips.filter(trip => 
+      trip.price <= budget && (type === 'all' || trip.type === type)
+    );
+
+    let html = '';
+    if (filtered.length === 0) {
+      html = '<p style="color:red;">❌ ما كاينش رحلات تناسب معاييرك. جرب غير الميزانية أو النوع!</p>';
+    } else {
+      html = '<h2>✅ الرحلات المقترحة:</h2>';
+      filtered.forEach(trip => {
+        const waMessage = `بغيت%20احجز%20${encodeURIComponent(trip.name)}%20بتاريخ...`;
+        html += `
+          <div style="border:1px solid #ddd; padding:15px; margin:10px 0; border-radius:8px; background:#f9f9f9;">
+            <h3>${trip.name}</h3>
+            <p><strong>المدة:</strong> ${trip.duration} | <strong>السعر:</strong> ${trip.price} درهم</p>
+            <p>${trip.description}</p>
+            <a href="https://wa.me/212713009090?text=${waMessage}" 
+               target="_blank" 
+               style="background:#25D366; color:white; padding:8px 15px; text-decoration:none; border-radius:5px; font-weight:bold; display:inline-block;">
+              💬 احجز عبر الواتساب
+            </a>
+          </div>
+        `;
+      });
+    }
+    document.getElementById('results').innerHTML = html;
+  });
+</script>
