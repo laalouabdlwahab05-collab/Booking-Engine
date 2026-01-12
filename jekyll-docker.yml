@@ -6,8 +6,9 @@ on:
   pull_request:
     branches: ["main"]
 
+# ⚠️ هذا هو المفتاح: الإذونات الكاملة
 permissions:
-  contents: read
+  contents: write  # ← ضروري لكتابة الفرع gh-pages
   pages: write
   id-token: write
 
@@ -19,9 +20,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4  # ← v4 مهم!
-
       - name: Build Jekyll site with Docker
         run: |
           docker run \
@@ -30,16 +28,8 @@ jobs:
             jekyll/builder:latest \
             /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3  # ← v3 (يدعم upload-artifact@v4)
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4  # ← v4 (الأحدث)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
