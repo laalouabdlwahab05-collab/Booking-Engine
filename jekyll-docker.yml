@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: ["main"]
 
-# ⚠️ هذا هو المفتاح: الإذونات الكاملة
 permissions:
   contents: write  # ← ضروري لكتابة الفرع gh-pages
   pages: write
